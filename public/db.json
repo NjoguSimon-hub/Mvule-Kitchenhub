@@ -17,17 +17,115 @@
   "menu": [
     {
       "id": 1,
-      "name": "Chicken Biryani",
-      "price": 500,
-      "image": "/images/biryani.jpg",
-      "category": "Main"
+      "category": "Wings",
+      "name": "Mouth Tantalizing Chicken Wings",
+      "description": "Served with fries | 6pc",
+      "price": 650,
+      "image": "/images/The Easiest Smoked Chicken Wings Recipe.jpeg"
     },
     {
       "id": 2,
-      "name": "Burger",
-      "price": 350,
-      "image": "/images/burger.jpg",
-      "category": "Fast Food"
+      "category": "Wings",
+      "name": "Duo Wings",
+      "description": "2 Flavours | 12pc",
+      "price": 1250,
+      "image": "/images/The Easiest Smoked Chicken Wings Recipe.jpeg"
+    },
+    {
+      "id": 3,
+      "category": "Wings",
+      "name": "Trio Wings",
+      "description": "3 Flavours | 18pc",
+      "price": 1850,
+      "image": "/images/The Easiest Smoked Chicken Wings Recipe.jpeg"
+    },
+    {
+      "id": 4,
+      "category": "Wraps",
+      "name": "Ronikkies Chicken Wrap",
+      "description": "Homemade tortilla, shredded chicken, bbq or hot sauce, coleslaw, pickled cucumbers",
+      "price": 450,
+      "image": "/images/Healthy Chicken Ranch Wraps for Busy Days.jpeg"
+    },
+    {
+      "id": 5,
+      "category": "Wraps",
+      "name": "Big Mac Wrap",
+      "description": "Homemade tortilla, ground beef, special sauce, lettuce, caramelized onions, pickled cucumber | Option of chilli | Add Fries +100",
+      "price": 450,
+      "image": "/images/Healthy Chicken Ranch Wraps for Busy Days.jpeg"
+    },
+    {
+      "id": 6,
+      "category": "Meat",
+      "name": "Mvule Beef Ribs",
+      "description": "Off the bone beef ribs served with fries",
+      "price": 850,
+      "image": "/images/Délicieuses saucisses italiennes grillées aux poivrons et oignons_ une recette savoureuse!.jpeg"
+    },
+    {
+      "id": 7,
+      "category": "Burgers",
+      "name": "Mvule Smash Burger",
+      "description": "Beef burger with slaw and choice of sauces",
+      "price": 600,
+      "image": "/images/The Easiest Smoked Chicken Wings Recipe.jpeg"
+    },
+    {
+      "id": 8,
+      "category": "Fries",
+      "name": "Mvule Combo Fries",
+      "description": "Crinkle fries with minced beef or chicken, creamy sauce and BBQ sauce",
+      "price": 650,
+      "image": "/images/Free Download _ French Fries Fast Food png, Homemade Recipe, Traditional Snack.jpeg"
+    },
+    {
+      "id": 9,
+      "category": "Small Bites",
+      "name": "Beef Samosas",
+      "description": "",
+      "price": 50,
+      "image": "/images/Fried Dumplings And Samosas Ready To Eat Transparent Background, Food, Realistic, Delicious PNG Transparent Image and Clipart for Free Download.jpeg"
+    },
+    {
+      "id": 10,
+      "category": "Small Bites",
+      "name": "Chicken Samosas",
+      "description": "",
+      "price": 60,
+      "image": "/images/Fried Dumplings And Samosas Ready To Eat Transparent Background, Food, Realistic, Delicious PNG Transparent Image and Clipart for Free Download.jpeg"
+    },
+    {
+      "id": 11,
+      "category": "Small Bites",
+      "name": "Spicy Beef Sausages",
+      "description": "",
+      "price": 50,
+      "image": "/images/Delicious fried grilled sausages with salt, spices and herbs stock image.jpeg"
+    },
+    {
+      "id": 12,
+      "category": "Small Bites",
+      "name": "Beef Sausages",
+      "description": "",
+      "price": 50,
+      "image": "/images/Délicieuses saucisses italiennes grillées aux poivrons et oignons_ une recette savoureuse!.jpeg"
+    },
+    {
+      "id": 13,
+      "category": "Small Bites",
+      "name": "Chips",
+      "description": "",
+      "price": 150,
+      "image": "/images/Free Download _ French Fries Fast Food png, Homemade Recipe, Traditional Snack.jpeg"
+    },
+    {
+      "id": 14,
+      "category": "Small Bites",
+      "name": "Masala Chips",
+      "description": "",
+      "price": 200,
+      "image": "/images/Chips masala anyone_.jpeg"
     }
   ],
   "orders": [
@@ -50,5 +148,6 @@
       "totalSales": 15000,
       "orders": 30
     }
-  ]
+  ],
+  "featured": [1, 4, 8]
 }

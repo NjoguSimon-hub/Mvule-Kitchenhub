@@ -34,6 +34,20 @@ function AdminDashboard() {
     alert(`Order #${orderId} status updated to ${newStatus}`)
   }
 
+  const toggleFeatured = (itemId) => {
+    const currentFeatured = data.featured || []
+    let newFeatured
+    
+    if (currentFeatured.includes(itemId)) {
+      newFeatured = currentFeatured.filter(id => id !== itemId)
+    } else {
+      newFeatured = [...currentFeatured, itemId]
+    }
+    
+    setData({...data, featured: newFeatured})
+    alert(`Item ${currentFeatured.includes(itemId) ? 'removed from' : 'added to'} Today's Specials!`)
+  }
+
   return (
     <div className="page">
       <div className="container">
@@ -54,6 +68,34 @@ function AdminDashboard() {
           <div className="card" style={{textAlign: 'center'}}>
             <h3>Pending Orders</h3>
             <p style={{fontSize: '2rem', color: 'var(--accent)', fontWeight: 'bold'}}>{stats.pendingOrders}</p>
+          </div>
+        </div>
+
+        <div className="card" style={{marginBottom: '2rem'}}>
+          <h2>Manage Today's Specials</h2>
+          <div className="grid grid-3">
+            {data.menu?.map(item => {
+              const isFeatured = data.featured?.includes(item.id)
+              return (
+                <div key={item.id} className="card" style={{padding: '1rem', background: isFeatured ? 'var(--primary)' : 'var(--bg-light)'}}>
+                  <h4 style={{marginBottom: '0.5rem', color: isFeatured ? 'white' : 'var(--text)'}}>{item.name}</h4>
+                  <p style={{fontSize: '0.9rem', color: isFeatured ? 'rgba(255,255,255,0.8)' : 'var(--text-light)'}}>KSh {item.price}</p>
+                  <button 
+                    onClick={() => toggleFeatured(item.id)}
+                    className="btn" 
+                    style={{
+                      marginTop: '0.5rem',
+                      fontSize: '0.8rem',
+                      padding: '0.5rem 1rem',
+                      background: isFeatured ? 'white' : 'var(--primary)',
+                      color: isFeatured ? 'var(--primary)' : 'white'
+                    }}
+                  >
+                    {isFeatured ? 'Remove' : 'Feature'}
+                  </button>
+                </div>
+              )
+            })}
           </div>
         </div>
 

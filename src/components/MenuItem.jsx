@@ -14,18 +14,49 @@ function MenuItem({ item }) {
   }
 
   return (
-    <div className="card menu-item">
-      {item.image && (
-        <img 
-          src={item.image} 
-          alt={item.name}
-          onError={(e) => e.target.style.display = 'none'}
-        />
-      )}
-      <div className="menu-item-info">
-        <h3>{item.name}</h3>
-        <div className="price">KSh {item.price}</div>
-        <button className="btn" onClick={addToCart} style={{marginTop: '1rem'}}>
+    <div className="card" style={{overflow: 'hidden'}}>
+      <div style={{position: 'relative', height: '200px', background: 'var(--bg-light)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        {item.image ? (
+          <img 
+            src={item.image} 
+            alt={item.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.nextSibling.style.display = 'flex'
+            }}
+          />
+        ) : null}
+        <div style={{
+          display: item.image ? 'none' : 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          fontSize: '4rem',
+          color: 'var(--text-light)'
+        }}>
+          🍽️
+        </div>
+      </div>
+      <div style={{padding: '1rem'}}>
+        <h3 style={{marginBottom: '0.5rem'}}>{item.name}</h3>
+        {item.description && (
+          <p style={{
+            color: 'var(--text-light)', 
+            fontSize: '0.9rem', 
+            margin: '0.5rem 0',
+            lineHeight: '1.4'
+          }}>
+            {item.description}
+          </p>
+        )}
+        <div className="price" style={{fontSize: '1.2rem', fontWeight: 'bold', margin: '1rem 0'}}>KSh {item.price}</div>
+        <button className="btn" onClick={addToCart} style={{width: '100%'}}>
           Add to Cart
         </button>
       </div>
