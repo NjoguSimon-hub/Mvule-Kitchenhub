@@ -1,0 +1,54 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "password123"
+    }
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "name": "Chicken Biryani",
+      "price": 500,
+      "image": "/images/biryani.jpg",
+      "category": "Main"
+    },
+    {
+      "id": 2,
+      "name": "Burger",
+      "price": 350,
+      "image": "/images/burger.jpg",
+      "category": "Fast Food"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "customerId": 1,
+      "items": [
+        { "menuId": 1, "quantity": 1 },
+        { "menuId": 2, "quantity": 2 }
+      ],
+      "status": "pending",
+      "total": 1200,
+      "placedAt": "2025-08-05T13:00:00Z"
+    }
+  ],
+  "analytics": [
+    {
+      "id": 1,
+      "month": "August",
+      "totalSales": 15000,
+      "orders": 30
+    }
+  ]
+}
