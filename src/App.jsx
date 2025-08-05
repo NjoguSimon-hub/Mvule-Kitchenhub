@@ -8,6 +8,8 @@ import Checkout from './pages/Checkout'
 import OrderTracking from './pages/OrderTracking'
 import AdminDashboard from './pages/AdminDashboard'
 import Analytics from './pages/Analytics'
+import './App.css';
+
 
 function App() {
   return (
