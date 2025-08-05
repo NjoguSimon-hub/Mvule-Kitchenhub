@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Checkout from './pages/Checkout'
 import OrderTracking from './pages/OrderTracking'
 import AdminDashboard from './pages/AdminDashboard'
+import AdminLogin from './pages/AdminLogin'
 import Analytics from './pages/Analytics'
 import './App.css';
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/track" element={<OrderTracking />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
