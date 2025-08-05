@@ -10,7 +10,7 @@ function MenuItem({ item }) {
     }
     
     localStorage.setItem('cart', JSON.stringify(cart))
-    alert(`${item.name} added to cart!`)
+    window.dispatchEvent(new Event('cartUpdated'))
   }
 
   return (

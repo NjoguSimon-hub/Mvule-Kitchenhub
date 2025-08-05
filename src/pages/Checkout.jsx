@@ -24,6 +24,7 @@ function Checkout() {
       customer: formData,
       status: 'confirmed'
     }))
+    window.dispatchEvent(new Event('cartUpdated'))
     navigate('/track')
   }
 

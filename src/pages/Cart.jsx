@@ -20,12 +20,14 @@ function Cart() {
     )
     setCartItems(updatedCart)
     localStorage.setItem('cart', JSON.stringify(updatedCart))
+    window.dispatchEvent(new Event('cartUpdated'))
   }
 
   const removeItem = (id) => {
     const updatedCart = cartItems.filter(item => item.id !== id)
     setCartItems(updatedCart)
     localStorage.setItem('cart', JSON.stringify(updatedCart))
+    window.dispatchEvent(new Event('cartUpdated'))
   }
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
@@ -51,7 +53,7 @@ function Cart() {
             <div key={item.id} className="card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <div>
                 <h3>{item.name}</h3>
-                <p className="price">₹{item.price}</p>
+                <p className="price">KSh {item.price}</p>
               </div>
               <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
                 <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
