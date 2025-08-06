@@ -1,5 +1,14 @@
+import { useState } from 'react'
+
 function MenuItem({ item }) {
-  const addToCart = () => {
+  const [isAdding, setIsAdding] = useState(false)
+
+  const addToCart = async () => {
+    setIsAdding(true)
+    
+    // Simulate API call delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 300))
+    
     const cart = JSON.parse(localStorage.getItem('cart') || '[]')
     const existingItem = cart.find(cartItem => cartItem.id === item.id)
     
@@ -11,6 +20,7 @@ function MenuItem({ item }) {
     
     localStorage.setItem('cart', JSON.stringify(cart))
     window.dispatchEvent(new Event('cartUpdated'))
+    setIsAdding(false)
   }
 
   return (
@@ -56,8 +66,13 @@ function MenuItem({ item }) {
           </p>
         )}
         <div className="price" style={{fontSize: '1.2rem', fontWeight: 'bold', margin: '1rem 0'}}>KSh {item.price}</div>
-        <button className="btn" onClick={addToCart} style={{width: '100%'}}>
-          Add to Cart
+        <button 
+          className={`btn ${isAdding ? 'loading' : ''}`} 
+          onClick={addToCart} 
+          disabled={isAdding}
+          style={{width: '100%'}}
+        >
+          {isAdding ? 'Adding...' : 'Add to Cart'}
         </button>
       </div>
     </div>

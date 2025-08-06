@@ -30,11 +30,16 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar__logo" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
         <img 
-          src="/Chef logo for restaurant _ Premium Vector.jpeg" 
+          src="/images/Chef logo for restaurant _ Premium Vector.jpeg" 
           alt="Chef Logo" 
-          style={{width: '40px', height: '40px', borderRadius: '50%'}}
+          style={{width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover'}}
+          onError={(e) => {
+            e.target.style.display = 'none'
+            e.target.nextSibling.style.display = 'inline'
+          }}
         />
-        Mvule<span>Catering</span>
+        <span style={{display: 'none', fontSize: '1.5rem'}}>🍽️</span>
+        <span>Mvule Catering</span>
       </div>
       <ul className="navbar__links">
         <li><Link to="/">Home</Link></li>
@@ -69,7 +74,27 @@ function Navbar() {
           )}
         </li>
         <li><Link to="/track">Track Order</Link></li>
-        <li><Link to="/login">Login</Link></li>
+        {localStorage.getItem('token') && (
+          <>
+            <li><Link to="/dashboard">My Dashboard</Link></li>
+            <li><Link to="/my-orders">My Orders</Link></li>
+          </>
+        )}
+        {localStorage.getItem('token') ? (
+          <>
+            <li style={{color: 'var(--primary)'}}>Welcome, {JSON.parse(localStorage.getItem('user') || '{}').name || 'User'}</li>
+            <li><button onClick={() => {
+              localStorage.removeItem('token')
+              localStorage.removeItem('user')
+              window.location.href = '/'
+            }} style={{background: 'none', border: 'none', color: 'var(--text)', cursor: 'pointer'}}>Logout</button></li>
+          </>
+        ) : (
+          <>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Sign Up</Link></li>
+          </>
+        )}
         <li><Link to="/admin-login">Admin</Link></li>
       </ul>
     </nav>

@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
+import GuestCheckoutSuccess from '../components/GuestCheckoutSuccess'
 
 function Checkout() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [orderSuccess, setOrderSuccess] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,22 +14,65 @@ function Checkout() {
     phone: ''
   })
 
+  const isLoggedIn = localStorage.getItem('token')
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
   const cartItems = JSON.parse(localStorage.getItem('cart') || '[]')
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Clear cart and redirect
-    localStorage.removeItem('cart')
-    localStorage.setItem('lastOrder', JSON.stringify({
-      id: Date.now(),
-      items: cartItems,
-      total,
-      customer: formData,
-      status: 'confirmed'
-    }))
-    window.dispatchEvent(new Event('cartUpdated'))
-    navigate('/track')
+    setLoading(true)
+    
+    try {
+      // Create order via backend
+      const orderData = {
+        items: cartItems.map(item => ({
+          menuId: item.id,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        deliveryAddress: formData.address,
+        phone: formData.phone,
+        customerLocation: { lat: -1.2864, lng: 36.8172 }, // Default Nairobi
+        notes: `Customer: ${formData.name}, Email: ${formData.email}`
+      }
+      
+      const orderResponse = await api.createOrder(orderData)
+      
+      if (orderResponse.success) {
+        // Initiate M-Pesa payment
+        const paymentData = {
+          phone: formData.phone.replace('+', ''),
+          amount: total,
+          orderId: orderResponse.data.id
+        }
+        
+        const paymentResponse = await api.initiatePayment(paymentData)
+        
+        // Clear cart and save order
+        localStorage.removeItem('cart')
+        localStorage.setItem('lastOrder', JSON.stringify(orderResponse.data))
+        window.dispatchEvent(new Event('cartUpdated'))
+        
+        // Show success component instead of alert and redirect
+        setOrderSuccess({
+          ...orderResponse.data,
+          customerName: formData.name,
+          customerEmail: formData.email,
+          paymentMessage: paymentResponse.success ? 
+            'Check your phone for M-Pesa payment prompt.' : 
+            'Payment will be processed shortly.'
+        })
+      } else {
+        alert('Failed to place order. Please try again.')
+      }
+    } catch (error) {
+      console.error('Order error:', error)
+      alert(`Failed to place order: ${error.message}. Make sure backend is running on port 5002.`)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -35,10 +82,31 @@ function Checkout() {
     })
   }
 
+  if (orderSuccess) {
+    return (
+      <div className="page">
+        <div className="container">
+          <GuestCheckoutSuccess 
+            orderData={orderSuccess} 
+            onAccountCreated={() => navigate('/my-orders')}
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="page">
       <div className="container">
-        <h1>Checkout</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <h1>Checkout</h1>
+          {isLoggedIn && (
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ margin: '0', color: 'var(--primary)' }}>Welcome back, {user.name}!</p>
+              <p style={{ margin: '0', fontSize: '0.9rem', color: 'var(--text-light)' }}>Signed in as {user.email}</p>
+            </div>
+          )}
+        </div>
         
         <div className="grid grid-2">
           <div>
@@ -58,6 +126,20 @@ function Checkout() {
 
           <div>
             <h2>Delivery Information</h2>
+            {!isLoggedIn && (
+              <div style={{ 
+                padding: '1rem', 
+                background: 'var(--bg-light)', 
+                borderRadius: 'var(--radius)',
+                marginBottom: '1.5rem',
+                border: '1px solid var(--border)'
+              }}>
+                <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Ordering as Guest</p>
+                <p style={{ margin: '0', fontSize: '0.9rem', color: 'var(--text-light)' }}>
+                  You can create an account after placing your order to track future orders.
+                </p>
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Full Name</label>
@@ -103,8 +185,8 @@ function Checkout() {
                 />
               </div>
               
-              <button type="submit" className="btn" style={{width: '100%'}}>
-                Place Order
+              <button type="submit" className="btn" style={{width: '100%'}} disabled={loading}>
+                {loading ? 'Processing Order...' : 'Place Order & Pay with M-Pesa'}
               </button>
             </form>
           </div>

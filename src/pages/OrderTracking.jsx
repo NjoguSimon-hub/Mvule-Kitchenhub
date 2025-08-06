@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import OrderTracking from '../components/OrderTracking'
 
-function OrderTracking() {
+function OrderTrackingPage() {
   const [order, setOrder] = useState(null)
 
   useEffect(() => {
@@ -32,15 +33,20 @@ function OrderTracking() {
           <p><strong>Total:</strong> KSh {order.total}</p>
           
           <h3>Items:</h3>
-          {order.items.map(item => (
-            <div key={item.id} style={{padding: '0.5rem 0', borderBottom: '1px solid var(--border)'}}>
-              {item.name} x {item.quantity} = KSh {item.price * item.quantity}
+          {order.items.map((item, index) => (
+            <div key={index} style={{padding: '0.5rem 0', borderBottom: '1px solid var(--border)'}}>
+              Item #{item.menuId} x {item.quantity} = KSh {item.price * item.quantity}
             </div>
           ))}
+        </div>
+
+        <div className="card" style={{marginTop: '2rem'}}>
+          <h2>Live Tracking</h2>
+          <OrderTracking orderId={order.id} />
         </div>
       </div>
     </div>
   )
 }
 
-export default OrderTracking
+export default OrderTrackingPage
