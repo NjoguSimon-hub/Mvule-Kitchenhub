@@ -87,12 +87,6 @@ npm run server
 npm run backend
 ```
 
-### 5. Access the Application
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5000
-- **Mock API**: http://localhost:3001
-
-## 🔑 Demo Credentials
 
 ### Admin Access
 - **URL**: `/admin-login`
