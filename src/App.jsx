@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { CartProvider } from './context/CartContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -20,33 +21,35 @@ import './App.css';
 function App() {
   return (
     <ErrorBoundary>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/track" element={<PublicTracking />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <CustomerDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/my-orders" element={
-          <ProtectedRoute>
-            <OrderTracking />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin" element={
-          <ProtectedRoute requireAdmin={true}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-      </Routes>
-      <Footer />
+      <CartProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/track" element={<PublicTracking />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <CustomerDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/my-orders" element={
+            <ProtectedRoute>
+              <OrderTracking />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin" element={
+            <ProtectedRoute requireAdmin={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+        </Routes>
+        <Footer />
+      </CartProvider>
     </ErrorBoundary>
   )
 }

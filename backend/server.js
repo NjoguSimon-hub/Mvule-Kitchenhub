@@ -12,6 +12,10 @@ const orderRoutes = require('./routes/orders');
 const paymentRoutes = require('./routes/payments');
 const trackingRoutes = require('./routes/tracking');
 
+// Import models
+const User = require('./models/User');
+const Order = require('./models/Order');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -41,12 +45,16 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+} else {
+  console.log('MongoDB URI not provided, running without database');
+}
 
 // Socket.io for real-time tracking
 io.on('connection', (socket) => {
@@ -72,8 +80,18 @@ app.use('/api/tracking', trackingRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    services: {
+      api: 'running',
+      database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    }
+  });
 });
+
+// Serve static files from public directory
+app.use(express.static('public'));
 
 // Error handling
 app.use((err, req, res, next) => {
